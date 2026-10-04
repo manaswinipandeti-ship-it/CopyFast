@@ -4,6 +4,7 @@
 
 #include "copier.h"
 #include "directory.h"
+#include "verify.h"
 
 int main(int argc, char *argv[])
 {
@@ -53,12 +54,28 @@ int main(int argc, char *argv[])
 
     if (result == 0) {
 
-        printf("\n----------------------------------------\n");
-        printf("Copy completed successfully!\n");
-        printf("Time taken   : %.6f seconds\n", time_taken);
-        printf("----------------------------------------\n");
+    printf("\n----------------------------------------\n");
+    printf("Copy completed successfully!\n");
+    printf("Time taken   : %.6f seconds\n", time_taken);
 
-    } else {
+    if (!S_ISDIR(source_info.st_mode)) {
+
+        printf("\nVerification: ");
+
+        int verified = verify_file(argv[1], argv[2]);
+
+        if (verified == 1) {
+            printf("PASSED - Files are identical\n");
+        } else if (verified == 0) {
+            printf("FAILED - Files differ\n");
+        } else {
+            printf("ERROR - Verification could not be completed\n");
+        }
+    }
+
+    printf("----------------------------------------\n");
+
+} else {
 
         printf("\nCopy failed!\n");
         return 1;
