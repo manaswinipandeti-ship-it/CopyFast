@@ -48,7 +48,7 @@ int verify_file(const char *source, const char *destination)
 
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         if (source_hash[i] != destination_hash[i]) {
-            return 1;
+            return 0;
         }
     }
 
